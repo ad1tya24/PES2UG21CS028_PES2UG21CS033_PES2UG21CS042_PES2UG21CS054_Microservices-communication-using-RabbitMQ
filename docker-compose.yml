@@ -1,0 +1,47 @@
+version: '3'
+
+services:
+  producer:
+    build: ./producer
+    ports:
+      - "5000:5000"
+    depends_on:
+      - rabbitmq
+    networks:
+      - inventory_network
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+
+  consumer_one:
+    build: ./consumer_one
+    ports:
+      - "5001:5000"
+    depends_on:
+      - rabbitmq
+    networks:
+      - inventory_network
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+
+  consumer_two:
+    build: ./consumer_two
+    ports:
+      - "5002:5000"
+    depends_on:
+      - rabbitmq
+    networks:
+      - inventory_network
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - inventory_network
+
+networks:
+  inventory_network:
+    driver: bridge
