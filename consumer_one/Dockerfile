@@ -1,21 +1,10 @@
-# Use the official Python image as the base image
-FROM python:3.9-slim
+FROM python:3.8-slim-buster
 
-# Set the working directory in the container
-WORKDIR /app
+WORKDIR /consumer_one
 
-# Copy the requirements file into the container
-COPY requirements.txt requirements.txt
-
-# Install any dependencies required for RabbitMQ communication
-# For example, if pika library is needed, include it in requirements.txt
-# RUN pip install pika
-
-# Install the Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the Python files into the container
 COPY . .
 
-# Command to run the consumer script
-CMD ["python", "app.py"]
+RUN pip install -r requirements.txt
+
+CMD ["python", "healthcheck.py"]    
+
